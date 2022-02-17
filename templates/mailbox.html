@@ -1,0 +1,114 @@
+{% extends "base-template.html" %}
+
+{% block title %}
+    Mailbox for {{ current_user.name }}
+{% endblock %}
+
+{% block content %}
+    <h1 id="main-heading">Mailbox</h1>
+
+    <table>
+        <tr>
+            <th>From:</th>
+            <th>Sent:</th>
+            <th>Title:</th>
+            <th>Message</th>
+        </tr>
+        {% for message in messages %}
+            <tr>
+                <td>{{ message.sender.name }}</td>
+                {% if message.sent_time is not none %}
+                    <td>{{ message.sent_time.year }}-{{ message.sent_time.month }}-{{ message.sent_time.day }}</td>
+                {% else %}
+                    <td>-</td>
+                {% endif %}
+                <td>{{ message.title }}</td>
+                <td id="encrypted">{{ message.body }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <br /><br /><br /><br />
+    <div>
+
+
+        {% for msg_body in messages_body %}
+            <input type="text" placeholder="receiverId" value="{{ msg_body['receiverId'] }}" /> <span> Mottagare</span>
+            <br />
+            <input type="text" id="encryptedMessage" placeholder="encryptedMessage" value="{{ msg_body['encryptedMessage'] }}" /><span> Meddelande RSA Krypterat</span>
+            <br />
+            <input type="text" id="encryptedKey" placeholder="encryptedKey" value="{{ msg_body['encryptedKey'] }}"/> <span> AES-Key RSA-Krypterad</span>
+            <br />
+            <input type="text" id="decryptedRsa" placeholder="AES-krypterat meddelande" value="decryptedRsa" /><span> Meddelande AES-krypterat </span>
+            <br />
+            <input type="text" placeholder="AES-key okrypterad" value="decryptedAesKey"/>  <span> AES-Key oKrypterad</span>
+            <br />
+            <input type="text" id="clearMsg" value="clearMsg" placeholder="Meddelandet okrypterat"  />
+            <br />
+            <br />
+            <h2>Upload your private Rsa-Key to decrypt your message.</h2>
+            <input type="file" id="priv-file" enctype="multipart/form-data" />
+            <button type="button" onclick="readPrivateKey()">Upload private Rsa-Key</button><span id="priv-loaded"></span>
+            <br />
+            <br />
+            <button type="button" onclick="rsaDecrypt()">Decrypt the Message</button>
+            <p id="decrypted"></p>
+        {% endfor %}
+
+        <script src="../static/js/rsa.js"></script>
+
+
+        <script>
+
+            let privateKey;
+
+            function readPrivateKey() {
+                let files = document.getElementById("priv-file").files;
+                let file = files[0];
+                let reader = new FileReader();
+
+                reader.onloadend = function (event) {
+                    privateKey = event.target.result;
+                    privateKey = privateKey.replace(/(\r\n|\n|\r)/gm, "");
+                    document.getElementById("priv-loaded").innerHTML = "Private key loaded";
+                };
+
+                reader.readAsText(file);
+            }
+
+
+            function rsaDecrypt() {
+
+                let cipher = document.getElementById("encryptedMessage").innerHTML;
+
+                let rsaEncrypt = new JSEncrypt();
+
+                rsaEncrypt.setPrivateKey(privateKey);
+
+                let aseText = rsaEncrypt.decrypt(cipher);
+
+                document.getElementById("decryptedRsa").innerHTML = aseText;
+            }
+
+            function deCryptAesKey() {
+                let cipherKey = document.getElementById("encryptedKey").innerHTML;
+
+                let rsaEncrypt = new JSEncrypt();
+
+                rsaEncrypt.setPrivateKey(privateKey);
+
+                let aseKey = rsaEncrypt.decrypt(cipherKey);
+
+                document.getElementById("decryptedAesKey").innerHTML = aseKey;
+
+            }
+
+            function aes_decrypt() {
+                let clearText = CryptoJS.AES.decrypt(aseText, aseKey);
+                document.getElementById("clearMsg").value = clearText.toString(CryptoJS.enc.Utf8);
+            }
+
+        </script>
+
+    </div>
+
+{% endblock %}
