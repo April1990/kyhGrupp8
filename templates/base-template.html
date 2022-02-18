@@ -8,33 +8,38 @@
 
 </head>
 <body>
-    <a class="menu-item" href="{{ url_for('bp_open.index') }}">
-        Home
-    </a>
-    {% if current_user.is_authenticated %}
-        <a class="menu-item" href="{{ url_for('bp_user.user_get') }}">
-            Profile
+
+
+        <a class="menu-item" href="{{ url_for('bp_open.index') }}">
+                Home
         </a>
-        <a class="menu-item" href="{{ url_for('bp_user.mailbox_get') }}">
-            Mailbox
-        </a>
-        <a class="menu-item" href="{{ url_for('bp_admin.get_admin') }}">
-            Admin
-        </a>
-        <a class="menu-item" href="{{ url_for('bp_user.logout_get') }}">
-            Log Out
-        </a>
-        <a href="{{ url_for('bp_user.mailbox_get') }}">
-            <i class="fa fa-fw fa-envelope-open" id="message-symbol"></i>
-                <span class="sup" id="message-count"></span>
-        </a>
-    {% else %}
-        <a class="menu-item" href="{{ url_for('bp_open.signup_get') }}">
-            Sign Up
-        </a>
-        <a class="menu-item" href="{{ url_for('bp_open.login_get') }}">
-            Log In
-        </a>
+        {% if current_user.is_authenticated %}
+            <a class="menu-item" href="{{ url_for('bp_user.user_get') }}">
+                Send Msg
+            </a>
+            <a class="menu-item" href="{{ url_for('bp_user.mailbox_get') }}">
+                Read Msg
+            </a>
+
+            <a class="menu-item" href="{{ url_for('bp_user.logout_get') }}">
+                Log Out
+            </a>
+             <a class="menu-item" href="{{ url_for('bp_admin.get_admin') }}">
+                Admin
+            </a>
+            <a href="{{ url_for('bp_user.mailbox_get') }}">
+                <i class="fa fa-fw fa-envelope-open" id="message-symbol"></i>
+                    <span class="sup" id="message-count"></span>
+            </a>
+        {% else %}
+            <a class="menu-item" href="{{ url_for('bp_open.signup_get') }}">
+                Sign Up
+            </a>
+            <a class="menu-item" href="{{ url_for('bp_open.login_get') }}">
+                Log In
+            </a>
+
+
      {% endif %}
 
     <hr />
@@ -68,8 +73,9 @@
                 });
         }
     </script>
-{% endif %}
+        {% endif %}
     {% block scripts %}
     {% endblock %}
+
 </body>
 </html>

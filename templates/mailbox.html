@@ -5,36 +5,39 @@
 {% endblock %}
 
 {% block content %}
+    <div>
        <h2>Upload your private Rsa-Key to decrypt your message.</h2>
             <input type="file" id="priv-file" enctype="multipart/form-data" />
             <button type="button" onclick="readPrivateKey()">Upload private Rsa-Key</button><span id="priv-loaded"></span>
-            <br />
-    <h1 id="main-heading">Mailbox</h1>
 
-    <table>
-        <tr>
-            <th>From:</th>
-            <th>Sent:</th>
-            <th>Title:</th>
-            <th>Message</th>
-        </tr>
-        {% for message in messages %}
-            <tr>
-                <td>{{ message.sender.name }}</td>
-                {% if message.sent_time is not none %}
-                    <td>{{ message.sent_time.year }}-{{ message.sent_time.month }}-{{ message.sent_time.day }}</td>
-                {% else %}
-                    <td>-</td>
-                {% endif %}
-                <td>{{ message.title }}</td>
-                <td id="encrypted-{{ loop.index }}" onclick="decrypt(this)">{{ message.body }}</td>
-            </tr>
-        {% endfor %}
-        <h1>Decrypted message:</h1>
-        <div id="plain-text"></div>
-    </table>
-    <br/><br/><br/><br/>
+    </div>
+
     <div>
+        <table>
+            <tr>
+                <th>From:</th>
+                <th>Sent:</th>
+                <th class="read" >When you have load your private-key click on msg you will read:</th>
+            </tr>
+            {% for message in messages %}
+                <tr>
+                    <td>{{ message.sender.name }}</td>
+                    {% if message.sent_time is not none %}
+                        <td>{{ message.sent_time.year }}-{{ message.sent_time.month }}-{{ message.sent_time.day }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                    <td class="encrypted" id="encrypted-{{ loop.index }}" onclick="decrypt(this)">{{ message.body }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+            <h3>Decrypted message:</h3>
+            <h3 id="plain-text"></h3>
+    </div>
+
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
         <script src="../static/js/rsa.js"></script>
@@ -60,7 +63,7 @@
                 reader.onloadend = function (event) {
                     privateKey = event.target.result;
                     privateKey = privateKey.replace(/(\r\n|\n|\r)/gm, "");
-                    document.getElementById("priv-loaded").innerHTML = "Private key loaded";
+                    document.getElementById("priv-loaded").innerHTML = " Private key loaded";
                 };
 
                 reader.readAsText(file);
@@ -87,6 +90,6 @@
 
         </script>
 
-    </div>
+
 
 {% endblock %}

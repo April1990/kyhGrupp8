@@ -1,15 +1,14 @@
 {% extends "base-template.html" %}
 
 {% block title %}
-    Send a Message
+    Send Msg
 {% endblock %}
 
 {% block content %}
-    <h1>Sending a message to {{ receiver.name }}</h1>
+    <h1>You are sending a message to {{ receiver.name }}</h1>
     <form action="{{ url_for('bp_user.message_post') }}" method="POST">
-{#        <input type="text" id="title" name="title" placeholder="Message Title" /> <br />#}
         <input type="hidden" id="user-id" name="user_id" value="{{ receiver.id }}">
-        <input type="text" id="user-pubkey" value="{{ receiver.public_rsa }}">
+        <input type="hidden" id="user-pubkey" value="{{ receiver.public_rsa }}">
         <textarea name="body" id="body" placeholder="Message Body"></textarea> <br />
         <button type="button" class="send-button" onclick="encryptMessage()" >Submit</button>
     </form>

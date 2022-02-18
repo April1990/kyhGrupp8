@@ -2,13 +2,14 @@
 
 body {
     background-color: lightblue;
+    color: darkblue;
 }
 
 .menu-item {
     margin: 5px;
-    color: crimson;
+    color: lightblue;
     text-decoration: none;
-    background-color: black;
+    background-color: darkblue;
     padding: 5px;
     border-radius: 5px;
 }
@@ -24,12 +25,16 @@ th {
 }
 
 tr:nth-child(odd) {
-    background: darkgrey;
+    background: gray;
 }
 
 tr:nth-child(even) {
     background: grey;
     color: white;
+}
+
+.read{
+    text-align: left;
 }
 
 .center-content {
@@ -53,6 +58,10 @@ tr:nth-child(even) {
     background: crimson;
 }
 
+.encrypted {
+    color: gray;
+
+}
 .sup {
     position: relative;
     bottom: 1ex;

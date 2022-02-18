@@ -1,20 +1,20 @@
 {% extends "base-template.html" %}
 
 {% block title %}
-    User Page
+    Communication Page
 {% endblock %}
 
 {% block content %}
-    <h1 id="main-heading">User Page</h1>
-    <p>Hello {{ current_user.name }}</p>
-    <p>{{ current_user.name }} your Public RSA Key is: {{ current_user.public_rsa }}</p>
+    <h1 id="main-heading">Hello {{ current_user.name }}</h1>
+    <p></p>
+    <p>{{ current_user.name }} chooses a person form the list you want to send an encrypted msg to :</p>
 
     <table>
         <tr>
-            <th>User Name</th>
-            <th>User Email</th>
-            <th>Chat with</th>
-            <th>Online</th>
+            <th>Send msg to:</th>
+            <th>User Email:</th>
+            <th>Chat with:</th>
+            <th>Online:</th>
         </tr>
         {% for user in users %}
             <tr>

@@ -5,7 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to this site</h1>
+
+    <div><h1>Welcome to this site</h1>
+    <h2><a class="menu-item" href="{{ url_for('bp_open.signup_get') }}">
+            Sign Up
+        </a></h2>
+
+        <h2><a class="menu-item" href="{{ url_for('bp_open.login_get') }}">
+            Log In
+        </a></h2>
 
 
 {% endblock %}
