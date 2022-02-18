@@ -5,6 +5,10 @@
 {% endblock %}
 
 {% block content %}
+       <h2>Upload your private Rsa-Key to decrypt your message.</h2>
+            <input type="file" id="priv-file" enctype="multipart/form-data" />
+            <button type="button" onclick="readPrivateKey()">Upload private Rsa-Key</button><span id="priv-loaded"></span>
+            <br />
     <h1 id="main-heading">Mailbox</h1>
 
     <table>
@@ -23,43 +27,30 @@
                     <td>-</td>
                 {% endif %}
                 <td>{{ message.title }}</td>
-                <td id="encrypted">{{ message.body }}</td>
+                <td id="encrypted-{{ loop.index }}" onclick="decrypt(this)">{{ message.body }}</td>
             </tr>
         {% endfor %}
+        <h1>Decrypted message:</h1>
+        <div id="plain-text"></div>
     </table>
-    <br /><br /><br /><br />
+    <br/><br/><br/><br/>
     <div>
 
-
-        {% for msg_body in messages_body %}
-            <input type="text" placeholder="receiverId" value="{{ msg_body['receiverId'] }}" /> <span> Mottagare</span>
-            <br />
-            <input type="text" id="encryptedMessage" placeholder="encryptedMessage" value="{{ msg_body['encryptedMessage'] }}" /><span> Meddelande RSA Krypterat</span>
-            <br />
-            <input type="text" id="encryptedKey" placeholder="encryptedKey" value="{{ msg_body['encryptedKey'] }}"/> <span> AES-Key RSA-Krypterad</span>
-            <br />
-            <input type="text" id="decryptedRsa" placeholder="AES-krypterat meddelande" value="decryptedRsa" /><span> Meddelande AES-krypterat </span>
-            <br />
-            <input type="text" placeholder="AES-key okrypterad" value="decryptedAesKey"/>  <span> AES-Key oKrypterad</span>
-            <br />
-            <input type="text" id="clearMsg" value="clearMsg" placeholder="Meddelandet okrypterat"  />
-            <br />
-            <br />
-            <h2>Upload your private Rsa-Key to decrypt your message.</h2>
-            <input type="file" id="priv-file" enctype="multipart/form-data" />
-            <button type="button" onclick="readPrivateKey()">Upload private Rsa-Key</button><span id="priv-loaded"></span>
-            <br />
-            <br />
-            <button type="button" onclick="rsaDecrypt()">Decrypt the Message</button>
-            <p id="decrypted"></p>
-        {% endfor %}
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
         <script src="../static/js/rsa.js"></script>
 
 
         <script>
 
             let privateKey;
+            function decrypt(messageElement) {
+                let message = JSON.parse(messageElement.innerHTML);
+                console.log("Key", message.encryptedKey);
+                let aesKey = deCryptAesKey(message.encryptedKey);
+                let clearText = aes_decrypt(message.encryptedMessage, aesKey);
+                document.getElementById("plain-text").innerHTML =  clearText;
+
+            }
 
             function readPrivateKey() {
                 let files = document.getElementById("priv-file").files;
@@ -76,35 +67,22 @@
             }
 
 
-            function rsaDecrypt() {
+            function deCryptAesKey(cipherKey) {
 
-                let cipher = document.getElementById("encryptedMessage").innerHTML;
-
-                let rsaEncrypt = new JSEncrypt();
-
-                rsaEncrypt.setPrivateKey(privateKey);
-
-                let aseText = rsaEncrypt.decrypt(cipher);
-
-                document.getElementById("decryptedRsa").innerHTML = aseText;
-            }
-
-            function deCryptAesKey() {
-                let cipherKey = document.getElementById("encryptedKey").innerHTML;
 
                 let rsaEncrypt = new JSEncrypt();
 
                 rsaEncrypt.setPrivateKey(privateKey);
 
-                let aseKey = rsaEncrypt.decrypt(cipherKey);
-
-                document.getElementById("decryptedAesKey").innerHTML = aseKey;
-
+                let key = rsaEncrypt.decrypt(cipherKey);
+                console.log("decypted key", key);
+                return key;
             }
 
-            function aes_decrypt() {
-                let clearText = CryptoJS.AES.decrypt(aseText, aseKey);
-                document.getElementById("clearMsg").value = clearText.toString(CryptoJS.enc.Utf8);
+            function aes_decrypt(message, aesKey) {
+                console.log(message);
+                console.log(aesKey);
+                return CryptoJS.AES.decrypt(message, aesKey).toString(CryptoJS.enc.Utf8);
             }
 
         </script>

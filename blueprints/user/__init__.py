@@ -51,8 +51,8 @@ def message_post():
 @bp_user.get('/mailbox')
 def mailbox_get():
     messages = get_user_messages()
-    messages_body = [json.loads(message.body) for message in messages]
-    return render_template('mailbox.html', messages=messages, messages_body=messages_body)
+    # messages_body = [json.loads(message.body) for message in messages]
+    return render_template('mailbox.html', messages=messages)
 
 
 # @bp_user.get('/api')
