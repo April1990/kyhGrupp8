@@ -45,7 +45,7 @@
         }
 
         let jsonStrToSend = JSON.stringify(msgToSend);
-        fetch('http://127.0.0.1:5010/message', {
+        fetch('http://127.0.0.1/message', {
             method: "POST",
             headers: {
                 "Content-type": "application/json"

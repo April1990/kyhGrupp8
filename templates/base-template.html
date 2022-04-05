@@ -18,9 +18,6 @@
         <a class="menu-item" href="{{ url_for('bp_user.mailbox_get') }}">
             Mailbox
         </a>
-        <a class="menu-item" href="{{ url_for('bp_admin.get_admin') }}">
-            Admin
-        </a>
         <a class="menu-item" href="{{ url_for('bp_user.logout_get') }}">
             Log Out
         </a>
@@ -40,7 +37,7 @@
     <hr />
     {% block content %}
     {% endblock %}
-     {% if current_user.is_authenticated %}
+
     <script>
         checkMessages();
         setInterval(checkMessages, 5000);
@@ -54,21 +51,17 @@
                     if(msgCount.unreadMessageCount === 0) {
                         messageSymbol.classList.remove("fa-envelope");
                         messageSymbol.classList.add("fa-envelope-open");
-                        messageSymbol.classList.remove("new-msg");
-                        messageSymbol.classList.add("no-new-msg");
                         messageCount.innerHTML = "";
                     }
                     else {
                         messageSymbol.classList.remove("fa-envelope-open");
                         messageSymbol.classList.add("fa-envelope");
-                        messageSymbol.classList.remove("no-new-msg");
-                        messageSymbol.classList.add("new-msg");
                         messageCount.innerHTML = msgCount.unreadMessageCount;
                     }
                 });
         }
     </script>
-{% endif %}
+
     {% block scripts %}
     {% endblock %}
 </body>

@@ -35,6 +35,7 @@ def get_all_users():
 
     return Response(json.dumps(cleaned_users), 200, content_type='application/json')
 
+
 @bp_api.get('/hepp')
 @authorize
 def hepp_get():
