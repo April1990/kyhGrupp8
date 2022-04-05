@@ -1,7 +1,7 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css");
 
 body {
-    background-color: lightblue;
+    background-color: mediumpurple;
 }
 
 .menu-item {
@@ -14,13 +14,13 @@ body {
 }
 
 table {
-    width: 75%;
+    width: 100%;
     background-color: antiquewhite;
 }
 
 
 th {
-    background: aqua;
+    background: mediumpurple;
 }
 
 tr:nth-child(odd) {

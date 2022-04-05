@@ -3,11 +3,11 @@ import random
 import paho.mqtt.client as paho
 
 
-CLIENT_ID = f'kyh-mqtt-{random.randint(0,1000)}'
-USERNAME = 'kyh_1'
-PASSWORD = 'kyh1super2'
-BROKER = '104.248.47.103'
-PORT = 1883
+CLIENT_ID = f'kyh-mqtt-{random.randint(0, 1000)}'
+USERNAME = 'April'
+PASSWORD = 'qS8JBTuxBT3inG9'
+BROKER = 'b3b0048c.eu-central-1.emqx.cloud'
+PORT = 15572
 
 
 def on_connect(client, userdata, flags, rc):

@@ -1,11 +1,7 @@
-import os
-import socket
-
 import dotenv
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-
 
 db = SQLAlchemy()
 
@@ -36,8 +32,7 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         from models import User
-        user = User.query.filter_by(id=user_id).first()
-        return user
+        return User.query.filter_by(id=user_id).first()
 
     # Register the open blueprint with the app object
     from blueprints.open import bp_open
@@ -61,7 +56,5 @@ def create_app():
 
 if __name__ == '__main__':
     dotenv.load_dotenv()
-    e = os.environ['HEJ']
     app = create_app()
-
     app.run()
